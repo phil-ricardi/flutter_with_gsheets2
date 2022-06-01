@@ -3,6 +3,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_with_gsheets2/main.dart';
 import 'package:flutter_with_gsheets2/utils.dart';
 
 import '../pages/forgot_password_page.dart';
@@ -113,6 +114,6 @@ class _LoginWidgetState extends State<LoginWidget> {
       Utils.showSnackBar(e.message);
     }
 // Navigator.of(context) not working!
-    Navigator.of(context).popUntil((route) => route.isFirst);
+    navigatorKey.currentState!.popUntil((route) => route.isFirst);
   }
 }

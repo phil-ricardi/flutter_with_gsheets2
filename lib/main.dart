@@ -5,7 +5,8 @@ import 'package:flutter_with_gsheets2/pages/auth_page.dart';
 import 'package:flutter_with_gsheets2/pages/verify_email_page.dart';
 import 'package:flutter_with_gsheets2/utils.dart';
 
-Future main() async {
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(const MyApp());
@@ -15,8 +16,6 @@ class MyApp extends StatelessWidget {
   static const String title = 'I hope this worx';
 
   const MyApp({Key? key}) : super(key: key);
-
-  get navigatorKey => null;
 
   @override
   Widget build(BuildContext context) => MaterialApp(
