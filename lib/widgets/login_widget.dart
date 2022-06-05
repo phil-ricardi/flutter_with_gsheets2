@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_with_gsheets2/main.dart';
-import 'package:flutter_with_gsheets2/utils.dart';
+import 'package:flutter_with_gsheets2/Utils/utils.dart';
 
 import '../pages/forgot_password_page.dart';
 
