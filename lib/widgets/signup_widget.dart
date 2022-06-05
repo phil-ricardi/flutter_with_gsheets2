@@ -44,7 +44,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
               ),
               const SizedBox(height: 20),
               const Text(
-                'Hey There, \n Welcome Back',
+                'Hey There, \n Welcome ',
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
               ),
@@ -123,7 +123,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
     } on FirebaseAuthException catch (e) {
       Utils.showSnackBar(e.message);
     }
-// Navigator.of(context) doesn't work in this situation!!!
+
     Navigator.of(context).popUntil((route) => route.isFirst);
   }
 }

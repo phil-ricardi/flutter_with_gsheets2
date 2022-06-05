@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_with_gsheets2/pages/auth_page.dart';
+import 'package:flutter_with_gsheets2/pages/settings.dart';
 import 'package:flutter_with_gsheets2/pages/verify_email_page.dart';
 import 'package:flutter_with_gsheets2/utils.dart';
 
@@ -19,15 +20,24 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => MaterialApp(
+        title: title,
         navigatorKey: navigatorKey,
         scaffoldMessengerKey: Utils.messengerKey,
         debugShowCheckedModeBanner: false,
-        title: title,
-        theme: ThemeData.dark().copyWith(
+        theme: ThemeData().copyWith(
+          colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.blue),
+        ),
+        darkTheme: ThemeData.dark().copyWith(
           colorScheme: ColorScheme.fromSwatch(primaryColorDark: Colors.black12)
               .copyWith(secondary: Colors.tealAccent),
         ),
-        home: const MainPage(),
+        initialRoute: '/',
+        routes: {
+          '/': (context) => const MainPage(),
+          '/settings': (context) => const SettingsPage(
+                title: 'Settings Page',
+              ),
+        },
       );
 }
 

@@ -38,14 +38,22 @@ class _LoginWidgetState extends State<LoginWidget> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const SizedBox(
-              height: 40,
+            const SizedBox(height: 40),
+            const FlutterLogo(
+              size: 120,
             ),
+            const SizedBox(height: 20),
+            const Text(
+              'Hey There, \n Welcome Back',
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 40),
             TextField(
               controller: emailController,
               cursorColor: Colors.white,
               textInputAction: TextInputAction.next,
-              decoration: const InputDecoration(labelText: 'Enter'),
+              decoration: const InputDecoration(labelText: 'Enter Email'),
             ),
             const SizedBox(height: 4),
             TextField(
@@ -82,17 +90,19 @@ class _LoginWidgetState extends State<LoginWidget> {
             const SizedBox(height: 16),
             RichText(
               text: TextSpan(
-                  style: const TextStyle(color: Colors.white),
-                  text: 'No Account? ',
-                  children: [
-                    TextSpan(
-                        recognizer: TapGestureRecognizer()
-                          ..onTap = widget.onClickedSignUp,
-                        text: 'Sign Up',
-                        style: TextStyle(
-                            decoration: TextDecoration.underline,
-                            color: Theme.of(context).colorScheme.onError))
-                  ]),
+                style: const TextStyle(color: Colors.white),
+                text: 'No Account? ',
+                children: [
+                  TextSpan(
+                    recognizer: TapGestureRecognizer()
+                      ..onTap = widget.onClickedSignUp,
+                    text: 'Sign Up',
+                    style: TextStyle(
+                        decoration: TextDecoration.underline,
+                        color: Theme.of(context).colorScheme.onError),
+                  )
+                ],
+              ),
             ),
           ],
         ),
@@ -113,7 +123,7 @@ class _LoginWidgetState extends State<LoginWidget> {
     } on FirebaseAuthException catch (e) {
       Utils.showSnackBar(e.message);
     }
-// Navigator.of(context) not working!
+    // Navigator.of(context) not working!
     navigatorKey.currentState!.popUntil((route) => route.isFirst);
   }
 }
