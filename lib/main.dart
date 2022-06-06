@@ -2,12 +2,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_settings_screens/flutter_settings_screens.dart';
-import 'package:flutter_with_gsheets2/pages/auth_page.dart';
-import 'package:flutter_with_gsheets2/pages/settings_page.dart';
-import 'package:flutter_with_gsheets2/pages/verify_email_page.dart';
-import 'package:flutter_with_gsheets2/Utils/utils.dart';
 
+import 'Utils/utils.dart';
+// Pages
+import 'pages/auth_page.dart';
+import 'pages/invoice_page.dart';
 import 'pages/settings_page.dart';
+import 'pages/verify_email_page.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 Future<void> main() async {
@@ -43,14 +44,22 @@ class _MyAppState extends State<MyApp> {
                       primaryColor: Colors.teal,
                       secondaryHeaderColor: Colors.white,
                       scaffoldBackgroundColor: const Color(0xFF170635),
-                      canvasColor: const Color(0xFF170635),
+                      canvasColor: const Color.fromARGB(255, 18, 24, 105),
+                      errorColor: const Color.fromARGB(255, 199, 3, 3),
                     )
-                  : ThemeData.light()
-                      .copyWith(secondaryHeaderColor: Colors.black),
+                  : ThemeData.light().copyWith(
+                      primaryColor: Colors.teal,
+                      secondaryHeaderColor: Colors.black,
+                      scaffoldBackgroundColor:
+                          const Color.fromARGB(255, 21, 61, 190),
+                      canvasColor: const Color.fromARGB(255, 108, 163, 226),
+                      errorColor: const Color.fromARGB(255, 231, 19, 19),
+                    ),
               initialRoute: '/',
               routes: {
                 '/': (context) => const MainPage(),
                 '/settings': (context) => const SettingsPage(),
+                '/invoice': (context) => const InvoicePage(),
               },
             ));
   }

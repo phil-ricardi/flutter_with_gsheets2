@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_settings_screens/flutter_settings_screens.dart';
-import 'package:flutter_with_gsheets2/Utils/icon_widget.dart';
+import '/Utils/icon_widget.dart';
 
 class NotificationsPage extends StatelessWidget {
   static const keyNews = 'key-news';

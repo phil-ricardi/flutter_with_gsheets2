@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_settings_screens/flutter_settings_screens.dart';
-import 'package:flutter_with_gsheets2/Utils/icon_widget.dart';
 
+import '/Utils/icon_widget.dart';
 import '../Utils/utils.dart';
 
 class AccountPage extends StatelessWidget {

@@ -17,13 +17,15 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
+final user = FirebaseAuth.instance.currentUser!;
+
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    final user = FirebaseAuth.instance.currentUser!;
     return DefaultTabController(
         length: 5,
         initialIndex: 2,
+        animationDuration: const Duration(seconds: 1),
         child: Scaffold(
           appBar: AppBar(
             leading: IconButton(
@@ -48,10 +50,19 @@ class _HomePageState extends State<HomePage> {
               ),
               const SizedBox(height: 40),
               ElevatedButton.icon(
-                onPressed: () => FirebaseAuth.instance.signOut(),
-                icon: const Icon(Icons.arrow_back, size: 32),
+                onPressed: () {},
+                icon: const Icon(Icons.message, size: 32),
                 label: const Text(
-                  'Sign Out',
+                  'Send Message',
+                  style: TextStyle(fontSize: 24),
+                ),
+              ),
+              const SizedBox(height: 40),
+              ElevatedButton.icon(
+                onPressed: () => Navigator.pushNamed(context, '/invoice'),
+                icon: const Icon(Icons.inventory_rounded, size: 32),
+                label: const Text(
+                  'Invoice',
                   style: TextStyle(fontSize: 24),
                 ),
               ),

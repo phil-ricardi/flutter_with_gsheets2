@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_settings_screens/flutter_settings_screens.dart';
 
@@ -13,7 +14,7 @@ class SettingsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
-          title: const Text('widget.title'),
+          title: const Text('Settings'),
         ),
         body: SafeArea(
           child: ListView(
@@ -57,11 +58,10 @@ class SettingsPage extends StatelessWidget {
       );
 
   Widget buildLogout() => SimpleSettingsTile(
-        title: 'Logout',
-        subtitle: '',
-        leading: const IconWidget(icon: Icons.logout, color: Colors.blueAccent),
-        onTap: () => Utils.showSnackBar('Clicked Logout'),
-      );
+      title: 'Sign Out',
+      subtitle: '',
+      leading: const IconWidget(icon: Icons.logout, color: Colors.blueAccent),
+      onTap: () => FirebaseAuth.instance.signOut());
 
   Widget buildDeleteAccount() => SimpleSettingsTile(
         title: 'Delete Account',
