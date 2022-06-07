@@ -5,10 +5,10 @@ import 'package:flutter_settings_screens/flutter_settings_screens.dart';
 
 import 'Utils/utils.dart';
 // Pages
-import 'pages/auth_page.dart';
+import 'auth/auth_page.dart';
 import 'pages/invoice_page.dart';
 import 'pages/settings_page.dart';
-import 'pages/verify_email_page.dart';
+import 'auth/verify_email_page.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 Future<void> main() async {
