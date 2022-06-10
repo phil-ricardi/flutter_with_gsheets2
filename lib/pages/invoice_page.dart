@@ -17,6 +17,7 @@ class CompleteFormState extends State<CompleteForm> {
   bool readOnly = false;
   bool showSegmentedControl = true;
   final _formKey = GlobalKey<FormBuilderState>();
+  final _ageKey = GlobalKey<FormBuilderState>();
   bool _ageHasError = false;
   bool _genderHasError = false;
 
@@ -129,7 +130,10 @@ class CompleteFormState extends State<CompleteForm> {
                             ),
                             TextSpan(
                               text: 'Terms and Conditions',
-                              style: TextStyle(color: Colors.blue),
+                              style: TextStyle(
+                                color: Colors.blue,
+                                fontSize: 12,
+                              ),
                               // Flutter doesn't allow a button inside a button
                               // https://github.com/flutter/flutter/issues/31437#issuecomment-492411086
                               /*
@@ -149,6 +153,7 @@ class CompleteFormState extends State<CompleteForm> {
                       ),
                     ),
                     FormBuilderTextField(
+                      key: _ageKey,
                       autovalidateMode: AutovalidateMode.always,
                       name: 'age',
                       decoration: InputDecoration(
@@ -158,11 +163,14 @@ class CompleteFormState extends State<CompleteForm> {
                             : const Icon(Icons.check, color: Colors.green),
                       ),
                       onChanged: (val) {
-                        setState(() {
-                          _ageHasError = !(_formKey.currentState?.fields['age']
-                                  ?.validate() ??
-                              false);
-                        });
+                        setState(
+                          () {
+                            _ageHasError = !(_formKey
+                                    .currentState?.fields['age']
+                                    ?.validate() ??
+                                false);
+                          },
+                        );
                       },
                       // valueTransformer: (text) => num.tryParse(text),
                       validator: FormBuilderValidators.compose([
