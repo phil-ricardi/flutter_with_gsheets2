@@ -59,7 +59,7 @@ class _MyAppState extends State<MyApp> {
               routes: {
                 '/': (context) => const MainPage(),
                 '/settings': (context) => const SettingsPage(),
-                '/invoice': (context) => const InvoicePage(),
+                '/invoice': (context) => const CompleteForm(),
               },
             ));
   }
