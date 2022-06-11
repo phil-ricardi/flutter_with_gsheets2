@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
@@ -13,22 +14,25 @@ class CompleteForm extends StatefulWidget {
 }
 
 class CompleteFormState extends State<CompleteForm> {
-  bool autoValidate = true;
-  bool readOnly = false;
-  bool showSegmentedControl = true;
   final _formKey = GlobalKey<FormBuilderState>();
   final _ageKey = GlobalKey<FormBuilderState>();
-  bool _ageHasError = false;
-  bool _genderHasError = false;
+  final db = FirebaseFirestore.instance;
+  var user = <String, dynamic>{"employee": ""};
 
-  var genderOptions = ['Male', 'Female', 'Other'];
+  bool _ageHasError = false;
+  bool _statisHasError = false;
+  bool autoValidate = true;
+  bool showSegmentedControl = true;
+  bool readOnly = false;
+
+  var jobStatis = ['Completed', 'In Progress', 'Waiting'];
 
   void _onChanged(dynamic val) => debugPrint(val.toString());
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Form Builder Example')),
+      appBar: AppBar(title: const Text('Form Builder Example Of Invoice')),
       body: Padding(
         padding: const EdgeInsets.all(10),
         child: SingleChildScrollView(
@@ -46,7 +50,7 @@ class CompleteFormState extends State<CompleteForm> {
                   'movie_rating': 5,
                   'best_language': 'Dart',
                   'age': '13',
-                  'gender': 'Male'
+                  'statis': 'In Progress'
                 },
                 skipDisabled: true,
                 child: Column(
@@ -56,9 +60,9 @@ class CompleteFormState extends State<CompleteForm> {
                       name: 'date',
                       initialEntryMode: DatePickerEntryMode.calendar,
                       initialValue: DateTime.now(),
-                      inputType: InputType.both,
+                      inputType: InputType.date,
                       decoration: InputDecoration(
-                        labelText: 'Appointment Time',
+                        labelText: 'Date of Work',
                         suffixIcon: IconButton(
                           icon: const Icon(Icons.close),
                           onPressed: () {
@@ -67,14 +71,49 @@ class CompleteFormState extends State<CompleteForm> {
                           },
                         ),
                       ),
+                      // locale: const Locale.fromSubtags(languageCode: 'fr'),
+                    ),
+                    FormBuilderDateTimePicker(
+                      name: 'start time',
+                      timePickerInitialEntryMode: TimePickerEntryMode.dial,
+                      initialValue: DateTime.now(),
+                      inputType: InputType.time,
+                      decoration: InputDecoration(
+                        labelText: 'Start Time',
+                        suffixIcon: IconButton(
+                          icon: const Icon(Icons.close),
+                          onPressed: () {
+                            _formKey.currentState!.fields['time']
+                                ?.didChange(null);
+                          },
+                        ),
+                      ),
                       initialTime: const TimeOfDay(hour: 8, minute: 0),
+                      // locale: const Locale.fromSubtags(languageCode: 'fr'),
+                    ),
+                    FormBuilderDateTimePicker(
+                      name: 'end time',
+                      timePickerInitialEntryMode: TimePickerEntryMode.dial,
+                      initialValue: DateTime.now(),
+                      inputType: InputType.time,
+                      decoration: InputDecoration(
+                        labelText: 'End Time',
+                        suffixIcon: IconButton(
+                          icon: const Icon(Icons.close),
+                          onPressed: () {
+                            _formKey.currentState!.fields['time']
+                                ?.didChange(null);
+                          },
+                        ),
+                      ),
+                      initialTime: const TimeOfDay(hour: 16, minute: 30),
                       // locale: const Locale.fromSubtags(languageCode: 'fr'),
                     ),
                     FormBuilderDateRangePicker(
                       name: 'date_range',
                       firstDate: DateTime(1970),
                       lastDate: DateTime(2030),
-                      format: DateFormat('yyyy-MM-dd'),
+                      format: DateFormat('MM-dd-yy'),
                       onChanged: _onChanged,
                       decoration: InputDecoration(
                         labelText: 'Date Range',
@@ -88,6 +127,7 @@ class CompleteFormState extends State<CompleteForm> {
                             }),
                       ),
                     ),
+
                     FormBuilderSlider(
                       name: 'slider',
                       validator: FormBuilderValidators.compose([
@@ -182,31 +222,32 @@ class CompleteFormState extends State<CompleteForm> {
                       keyboardType: TextInputType.number,
                       textInputAction: TextInputAction.next,
                     ),
+                    //! JOB STATIS
                     FormBuilderDropdown<String>(
                       // autovalidate: true,
-                      name: 'gender',
+                      name: 'statis',
                       decoration: InputDecoration(
-                        labelText: 'Gender',
-                        suffix: _genderHasError
+                        labelText: 'Statis',
+                        suffix: _statisHasError
                             ? const Icon(Icons.error)
                             : const Icon(Icons.check),
                       ),
                       // initialValue: 'Male',
                       allowClear: true,
-                      hint: const Text('Select Gender'),
+                      hint: const Text('Select Job Statis'),
                       validator: FormBuilderValidators.compose(
                           [FormBuilderValidators.required()]),
-                      items: genderOptions
-                          .map((gender) => DropdownMenuItem(
+                      items: jobStatis
+                          .map((statis) => DropdownMenuItem(
                                 alignment: AlignmentDirectional.center,
-                                value: gender,
-                                child: Text(gender),
+                                value: statis,
+                                child: Text(statis),
                               ))
                           .toList(),
                       onChanged: (val) {
                         setState(() {
-                          _genderHasError = !(_formKey
-                                  .currentState?.fields['gender']
+                          _statisHasError = !(_formKey
+                                  .currentState?.fields['statis']
                                   ?.validate() ??
                               false);
                         });
@@ -215,20 +256,26 @@ class CompleteFormState extends State<CompleteForm> {
                     ),
                     FormBuilderRadioGroup<String>(
                       decoration: const InputDecoration(
-                        labelText: 'My chosen language',
+                        labelText: 'Job Type',
                       ),
                       initialValue: null,
-                      name: 'best_language',
+                      name: 'job type',
                       onChanged: _onChanged,
                       validator: FormBuilderValidators.compose(
-                          [FormBuilderValidators.required()]),
-                      options:
-                          ['Dart', 'Kotlin', 'Java', 'Swift', 'Objective-C']
-                              .map((lang) => FormBuilderFieldOption(
-                                    value: lang,
-                                    child: Text(lang),
-                                  ))
-                              .toList(growable: false),
+                        [FormBuilderValidators.required()],
+                      ),
+                      options: [
+                        'Plumbing',
+                        'Heating',
+                        'Emergency',
+                        'Weekend',
+                        'Other'
+                      ]
+                          .map((lang) => FormBuilderFieldOption(
+                                value: lang,
+                                child: Text(lang),
+                              ))
+                          .toList(growable: false),
                       controlAffinity: ControlAffinity.trailing,
                     ),
                     FormBuilderSegmentedControl(
@@ -251,8 +298,9 @@ class CompleteFormState extends State<CompleteForm> {
                       onChanged: _onChanged,
                     ),
                     FormBuilderSwitch(
-                      title: const Text('I Accept the terms and conditions'),
-                      name: 'accept_terms_switch',
+                      title:
+                          const Text('Are you sure you are ready to submit?'),
+                      name: 'ready to submit_switch',
                       initialValue: true,
                       onChanged: _onChanged,
                     ),
@@ -296,7 +344,7 @@ class CompleteFormState extends State<CompleteForm> {
                         }
                       },
                       child: const Text(
-                        'Submit',
+                        'Submit to Office',
                         style: TextStyle(color: Colors.white),
                       ),
                     ),
@@ -309,7 +357,7 @@ class CompleteFormState extends State<CompleteForm> {
                       },
                       // color: Theme.of(context).colorScheme.secondary,
                       child: Text(
-                        'Reset',
+                        'Reset Form',
                         style: TextStyle(
                             color: Theme.of(context).colorScheme.secondary),
                       ),
