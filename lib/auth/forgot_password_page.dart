@@ -54,7 +54,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                 ),
                 const SizedBox(height: 20),
                 ElevatedButton.icon(
-                  onPressed: () {},
+                  onPressed: () {}, //todo Add reset password thingy
                   icon: const Icon(Icons.email_outlined),
                   label: const Text(
                     'Reset Password',
