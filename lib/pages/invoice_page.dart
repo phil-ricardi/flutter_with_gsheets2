@@ -71,12 +71,13 @@ class InvoicePageState extends State<InvoicePage> {
                           },
                         ),
                       ),
-                      // locale: const Locale.fromSubtags(languageCode: 'fr'),
                     ),
                     FormBuilderDateTimePicker(
                       name: 'start time',
                       timePickerInitialEntryMode: TimePickerEntryMode.dial,
-                      initialValue: DateTime.now(),
+                      initialValue: DateTime.now()
+                        ..subtract(const Duration(hours: 1)),
+                      format: DateFormat('hh:mm a'),
                       inputType: InputType.time,
                       decoration: InputDecoration(
                         labelText: 'Start Time',
@@ -88,13 +89,12 @@ class InvoicePageState extends State<InvoicePage> {
                           },
                         ),
                       ),
-                      initialTime: const TimeOfDay(hour: 8, minute: 0),
-                      // locale: const Locale.fromSubtags(languageCode: 'fr'),
                     ),
                     FormBuilderDateTimePicker(
                       name: 'end time',
                       timePickerInitialEntryMode: TimePickerEntryMode.dial,
                       initialValue: DateTime.now(),
+                      format: DateFormat('hh:mm a'),
                       inputType: InputType.time,
                       decoration: InputDecoration(
                         labelText: 'End Time',
@@ -106,8 +106,6 @@ class InvoicePageState extends State<InvoicePage> {
                           },
                         ),
                       ),
-                      initialTime: const TimeOfDay(hour: 16, minute: 30),
-                      // locale: const Locale.fromSubtags(languageCode: 'fr'),
                     ),
                     FormBuilderDateRangePicker(
                       name: 'date_range',
@@ -356,7 +354,6 @@ class InvoicePageState extends State<InvoicePage> {
                       onPressed: () {
                         _formKey.currentState?.reset();
                       },
-                      // color: Theme.of(context).colorScheme.secondary,
                       child: Text(
                         'Reset Form',
                         style: TextStyle(

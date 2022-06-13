@@ -32,7 +32,7 @@ class ContractJobFormState extends State<ContractJobForm> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Form Builder Example Of Invoice')),
+      appBar: AppBar(title: const Text('Contract Form')),
       body: Padding(
         padding: const EdgeInsets.all(10),
         child: SingleChildScrollView(
@@ -46,12 +46,6 @@ class ContractJobFormState extends State<ContractJobForm> {
                   debugPrint(_formKey.currentState!.value.toString());
                 },
                 autovalidateMode: AutovalidateMode.disabled,
-                initialValue: const {
-                  'movie_rating': 5,
-                  'best_language': 'Dart',
-                  'age': '13',
-                  'statis': 'In Progress'
-                },
                 skipDisabled: true,
                 child: Column(
                   children: <Widget>[
@@ -60,6 +54,7 @@ class ContractJobFormState extends State<ContractJobForm> {
                       name: 'date',
                       initialEntryMode: DatePickerEntryMode.calendar,
                       initialValue: DateTime.now(),
+                      format: DateFormat('EEE - MM/dd/yy'),
                       inputType: InputType.date,
                       decoration: InputDecoration(
                         labelText: 'Date of Work',
@@ -77,6 +72,7 @@ class ContractJobFormState extends State<ContractJobForm> {
                       name: 'start time',
                       timePickerInitialEntryMode: TimePickerEntryMode.dial,
                       initialValue: DateTime.now(),
+                      format: DateFormat('EEE - MM/dd/yy'),
                       inputType: InputType.time,
                       decoration: InputDecoration(
                         labelText: 'Start Time',
