@@ -120,11 +120,12 @@ class CompleteFormState extends State<CompleteForm> {
                         helperText: 'Helper text',
                         hintText: 'Hint text',
                         suffixIcon: IconButton(
-                            icon: const Icon(Icons.close),
-                            onPressed: () {
-                              _formKey.currentState!.fields['date_range']
-                                  ?.didChange(null);
-                            }),
+                          icon: const Icon(Icons.close),
+                          onPressed: () {
+                            _formKey.currentState!.fields['date_range']
+                                ?.didChange(null);
+                          },
+                        ),
                       ),
                     ),
 

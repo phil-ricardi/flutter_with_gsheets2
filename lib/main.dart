@@ -7,10 +7,11 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 
 import 'Utils/utils.dart';
 // Pages
-import 'auth/auth_page.dart';
-import 'auth/verify_email_page.dart';
 import 'pages/invoice_page.dart';
 import 'pages/settings_page.dart';
+// Auth
+import 'auth/auth_page.dart';
+import 'auth/verify_email_page.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 Future<void> main() async {
@@ -37,39 +38,35 @@ class _MyAppState extends State<MyApp> {
       defaultValue: true,
       builder: (_, isDarkMode, __) => MaterialApp(
         title: MyApp.title,
-        debugShowCheckedModeBanner: false,
         navigatorKey: navigatorKey,
         scaffoldMessengerKey: Utils.messengerKey,
-        localizationsDelegates: const [
-          FormBuilderLocalizations.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-        ],
-        supportedLocales: FormBuilderLocalizations.delegate.supportedLocales,
+        debugShowCheckedModeBanner: false,
         theme: isDarkMode
-            ? ThemeData.dark().copyWith(
-                primaryColor: Colors.teal,
-                secondaryHeaderColor: Colors.white,
-                scaffoldBackgroundColor: const Color(0xFF170635),
-                canvasColor: const Color.fromARGB(255, 18, 24, 105),
-                errorColor: const Color.fromARGB(255, 199, 3, 3),
-              )
-            : ThemeData.light().copyWith(
-                primaryColor: Colors.teal,
-                secondaryHeaderColor: Colors.black,
-                scaffoldBackgroundColor: const Color.fromARGB(255, 21, 61, 190),
-                canvasColor: const Color.fromARGB(255, 108, 163, 226),
-                errorColor: const Color.fromARGB(255, 231, 19, 19),
-              ),
+          ? ThemeData.dark().copyWith(
+              primaryColor: Colors.teal,
+              secondaryHeaderColor: Colors.white,
+              scaffoldBackgroundColor: const Color(0xFF170635),
+              canvasColor: const Color.fromARGB(255, 18, 24, 105),
+              errorColor: const Color.fromARGB(255, 199, 3, 3),
+            )
+          : ThemeData.light().copyWith(
+              primaryColor: Colors.teal,
+              secondaryHeaderColor: Colors.black,
+              scaffoldBackgroundColor: const Color.fromARGB(255, 21, 61, 190),
+              canvasColor: const Color.fromARGB(255, 108, 163, 226),
+              errorColor: const Color.fromARGB(255, 231, 19, 19),
+            ),
         initialRoute: '/',
         routes: {
           '/': (context) => const MainPage(),
           '/settings': (context) => const SettingsPage(),
-          '/invoice': (context) => const CompleteForm(),
+          '/invoice': (context) => const InvoicePage(),
+          '/contract': (context) => const ContractJobForm(),
+
         },
       ),
     );
-  }
+  },
 }
 
 class MainPage extends StatelessWidget {
@@ -77,18 +74,18 @@ class MainPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        body: StreamBuilder<User?>(
-          stream: FirebaseAuth.instance.authStateChanges(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(child: CircularProgressIndicator());
-            } else if (snapshot.hasError) {
-              return const Center(child: Text('Something went wrong!'));
-            } else if (snapshot.hasData) {
-              return const VerifyEmailPage();
-            } else {}
-            return const AuthPage();
-          },
-        ),
-      );
+    body: StreamBuilder<User?>(
+      stream: FirebaseAuth.instance.authStateChanges(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        } else if (snapshot.hasError) {
+          return const Center(child: Text('Something went wrong!'));
+        } else if (snapshot.hasData) {
+          return const VerifyEmailPage();
+        } else {}
+        return const AuthPage();
+      },
+    ),
+  );
 }
