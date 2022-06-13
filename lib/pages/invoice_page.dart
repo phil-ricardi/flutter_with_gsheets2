@@ -4,16 +4,16 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 
-class CompleteForm extends StatefulWidget {
-  const CompleteForm({Key? key}) : super(key: key);
+class InvoicePage extends StatefulWidget {
+  const InvoicePage({Key? key}) : super(key: key);
 
   @override
-  CompleteFormState createState() {
-    return CompleteFormState();
+  InvoicePageState createState() {
+    return InvoicePageState();
   }
 }
 
-class CompleteFormState extends State<CompleteForm> {
+class InvoicePageState extends State<InvoicePage> {
   final _formKey = GlobalKey<FormBuilderState>();
   final _ageKey = GlobalKey<FormBuilderState>();
   final db = FirebaseFirestore.instance;

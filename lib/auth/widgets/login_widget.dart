@@ -4,12 +4,10 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 
 import '/Utils/utils.dart';
 import '/auth/forgot_password_page.dart';
 import '/main.dart';
-import '../firebase.dart';
 
 class LoginWidget extends StatefulWidget {
   final VoidCallback onClickedSignUp;
@@ -25,8 +23,6 @@ class LoginWidget extends StatefulWidget {
 
 class _LoginWidgetState extends State<LoginWidget> {
   static bool _passwordVisible = false;
-  static bool visible = false;
-  static bool gvisible = false;
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -34,10 +30,11 @@ class _LoginWidgetState extends State<LoginWidget> {
   final passwordController = TextEditingController();
 
   @override
-  void initState() {
-    super.initState();
-    visible = false;
-    gvisible = false;
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+
+    super.dispose();
   }
 
   @override
@@ -151,6 +148,7 @@ class _LoginWidgetState extends State<LoginWidget> {
               ),
             ),
             ElevatedButton.icon(
+              //! SIGN IN BUTTON
               onPressed: signIn,
               icon: const Icon(Icons.lock_open, size: 32),
               label: Text(
@@ -220,12 +218,8 @@ class _LoginWidgetState extends State<LoginWidget> {
               //     color: Colors.deepPurple[900],
               //     borderRadius: BorderRadius.circular(30)),
               child: ElevatedButton(
-                onPressed: () {
-                  setState(() {
-                    gvisible = load(gvisible);
-                  });
-                  googleSignIn(context);
-                },
+                //! SIGN IN GOOGLE
+                onPressed: () {},
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
                   child: Row(
@@ -277,93 +271,16 @@ class _LoginWidgetState extends State<LoginWidget> {
       builder: (context) => const Center(child: CircularProgressIndicator()),
       barrierDismissible: false,
     );
-    FirebaseAuth.instance.authStateChanges().listen(
-      (User? user) {
-        if (user != null) {
-          for (final providerProfile in user.providerData) {
-            // ID of the provider (google.com, apple.cpm, etc.)
-            final provider = providerProfile.providerId;
-
-            // UID specific to the provider
-            final uid = providerProfile.uid;
-
-            // Name, email address, and profile photo URL
-            final name = providerProfile.displayName;
-            final emailAddress = providerProfile.email;
-            final profilePhoto = providerProfile.photoURL;
-          }
-        }
-      },
-    );
 
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: emailController.text.trim(),
         password: passwordController.text.trim(),
       );
-
-      updateUser.updateDisplayName(updateUser);
-      userSetup(_usernameController.text);
     } on FirebaseAuthException catch (e) {
       Utils.showSnackBar(e.message);
     }
     // Navigator.of(context) not working!
     navigatorKey.currentState!.popUntil((route) => route.isFirst);
-  }
-
-  Future<void> googleSignIn(BuildContext context) async {
-    try {
-      final GoogleSignInAccount googleUser = await GoogleSignIn().signIn();
-
-      // Obtain the auth details from the request
-      final GoogleSignInAuthentication googleAuth =
-          await googleUser.authentication;
-
-      // Create a new credential
-      final credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth.accessToken,
-        idToken: googleAuth.idToken,
-      );
-      final User currentuser =
-          (await auth.signInWithCredential(credential)).user;
-      if (currentuser != null) {
-        dbRef.child(currentuser.uid);
-        Map userDataMap = {
-          'name': currentuser.displayName,
-          'email': currentuser.email,
-        };
-        dbRef.child(currentuser.uid).set(userDataMap);
-
-        _formKey.currentState.save();
-
-        SchedulerBinding.instance.addPostFrameCallback((_) {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (BuildContext context) => HomePage()));
-        });
-        Utils.showSnackBar('Account Created');
-      } else {
-        setState(() {
-          gvisible = load(gvisible);
-        });
-        Utils.showSnackBar('Account has not been created');
-      }
-    } catch (e) {
-      setState(() {
-        gvisible = load(gvisible);
-      });
-      Utils.showSnackBar(e.message);
-    }
-  }
-
-  bool load(visible) {
-    return visible = !visible;
-  }
-
-  @override
-  void dispose() {
-    emailController.dispose();
-    passwordController.dispose();
-
-    super.dispose();
   }
 }
