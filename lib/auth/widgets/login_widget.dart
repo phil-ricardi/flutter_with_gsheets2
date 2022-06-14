@@ -2,7 +2,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
+//import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '/Utils/utils.dart';
@@ -40,11 +40,11 @@ class _LoginWidgetState extends State<LoginWidget> {
   @override
   Widget build(BuildContext context) => SingleChildScrollView(
         key: _formKey,
-        padding: const EdgeInsets.all(16),
+        //padding: const EdgeInsets.all(16),
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.fromLTRB(0, 120, 0, 0),
+              padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
               child: Text(
                 'Hey You, \n Welcome Back',
                 textAlign: TextAlign.center,
@@ -55,23 +55,23 @@ class _LoginWidgetState extends State<LoginWidget> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.fromLTRB(0, 0, 0, 50),
-              child: Container(
-                width: 200,
-                height: 150,
-                decoration:
-                    BoxDecoration(borderRadius: BorderRadius.circular(10)),
+              padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
+              child: SizedBox(
+                width: 100,
+                height: 75,
                 child: Image.asset('assets/images/auth.png'),
               ),
             ),
             Padding(
               //! EMAIL FIELD
-              padding: const EdgeInsets.symmetric(horizontal: 15),
+              padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
               child: TextField(
                 controller: emailController,
                 keyboardType: TextInputType.emailAddress,
                 style: const TextStyle(color: Colors.white),
                 cursorColor: Colors.white,
+                cursorHeight: 30,
+                textAlignVertical: TextAlignVertical.bottom,
                 decoration: InputDecoration(
                     prefixIcon: const Icon(
                       Icons.mail_outline_rounded,
@@ -80,18 +80,18 @@ class _LoginWidgetState extends State<LoginWidget> {
                     filled: true,
                     fillColor: Colors.black12,
                     labelStyle: GoogleFonts.workSans(
-                      fontSize: 16,
+                      fontSize: 18,
                       color: Colors.white,
                     ),
                     hintStyle: GoogleFonts.workSans(
                       color: Colors.white54,
                     ),
                     enabledBorder: const OutlineInputBorder(
-                      //borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                      borderRadius: BorderRadius.all(Radius.circular(5.0)),
                       borderSide: BorderSide(color: Colors.white, width: 0.5),
                     ),
                     focusedBorder: const OutlineInputBorder(
-                      //borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                      borderRadius: BorderRadius.all(Radius.circular(15.0)),
                       borderSide: BorderSide(color: Colors.white, width: 1.5),
                     ),
                     labelText: 'Email',
@@ -101,12 +101,14 @@ class _LoginWidgetState extends State<LoginWidget> {
             ),
             Padding(
               //! PASSWORD FIELD
-              padding: const EdgeInsets.fromLTRB(15, 10, 15, 30),
+              padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
               child: TextField(
                 controller: passwordController,
                 obscureText: !_passwordVisible,
                 keyboardType: TextInputType.visiblePassword,
                 style: const TextStyle(color: Colors.white),
+                cursorHeight: 30,
+                textAlignVertical: TextAlignVertical.bottom,
                 decoration: InputDecoration(
                   prefixIcon: const Icon(
                     Icons.lock_outline_rounded,
@@ -127,7 +129,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                   filled: true,
                   fillColor: Colors.black12,
                   labelStyle: GoogleFonts.workSans(
-                    fontSize: 16,
+                    fontSize: 18,
                     color: Colors.white,
                   ),
                   hintStyle: GoogleFonts.workSans(
@@ -138,7 +140,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                     borderSide: BorderSide(color: Colors.white, width: 0.5),
                   ),
                   focusedBorder: const OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                    borderRadius: BorderRadius.all(Radius.circular(15.0)),
                     borderSide: BorderSide(color: Colors.white, width: 2),
                   ),
                   labelText: 'Password',
@@ -156,59 +158,47 @@ class _LoginWidgetState extends State<LoginWidget> {
                 style: GoogleFonts.workSans(fontSize: 24),
               ),
             ),
-            const SizedBox(height: 24),
-            GestureDetector(
-              child: Text(
-                'Forgot Password?',
-                style: GoogleFonts.workSans(
-                  decoration: TextDecoration.underline,
-                  color: Theme.of(context).colorScheme.error,
-                  fontSize: 20,
-                ),
-              ),
-              onTap: () => Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => const ForgotPasswordPage(),
-                ),
-              ),
-            ),
-            const SizedBox(height: 16),
-            RichText(
-              text: TextSpan(
-                style: GoogleFonts.workSans(color: Colors.white),
-                text: 'No Account? ',
-                children: [
-                  TextSpan(
-                    recognizer: TapGestureRecognizer()
-                      ..onTap = widget.onClickedSignUp,
-                    text: 'Sign Up',
-                    style: GoogleFonts.workSans(
-                        decoration: TextDecoration.underline,
-                        color: Theme.of(context).colorScheme.onError),
+            Padding(
+              //! FORGOT PASSWORD
+              padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+              child: GestureDetector(
+                child: Text(
+                  'Forgot Password?',
+                  style: GoogleFonts.workSans(
+                    decoration: TextDecoration.underline,
+                    color: Theme.of(context).colorScheme.error,
+                    fontSize: 20,
                   ),
-                ],
+                ),
+                onTap: () => Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => const ForgotPasswordPage(),
+                  ),
+                ),
               ),
             ),
-            SizedBox(
-              height: 30,
-              width: 300,
-              child: TextButton(
-                  onPressed: () {
-                    SchedulerBinding.instance.addPostFrameCallback((_) {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (BuildContext context) =>
-                              const ForgotPasswordPage(),
-                        ),
-                      );
-                    });
-                  },
-                  child: Text(
-                    'Forgot Password?',
-                    style:
-                        GoogleFonts.workSans(fontSize: 12, color: Colors.white),
-                  )),
+            Padding(
+              //! NO ACCOUNT
+              padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
+              child: RichText(
+                textAlign: TextAlign.center,
+                text: TextSpan(
+                  style: GoogleFonts.workSans(color: Colors.white),
+                  text: 'No Account?    ',
+                  children: [
+                    TextSpan(
+                      recognizer: TapGestureRecognizer()
+                        ..onTap = widget.onClickedSignUp,
+                      text: 'Sign Up',
+                      style: GoogleFonts.workSans(
+                          decoration: TextDecoration.underline,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.white,
+                          fontSize: 20),
+                    ),
+                  ],
+                ),
+              ),
             ),
             Container(
               height: 60,
@@ -221,7 +211,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                 //! SIGN IN GOOGLE
                 onPressed: () {},
                 child: Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
                   child: Row(
                     children: <Widget>[
                       const Image(
@@ -229,7 +219,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                         height: 30,
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(left: 40, right: 55),
+                        padding: const EdgeInsets.only(left: 20, right: 20),
                         child: Text(
                           'Sign in with Google',
                           style: GoogleFonts.workSans(

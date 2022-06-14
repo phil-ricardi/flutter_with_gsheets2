@@ -4,6 +4,7 @@ import 'package:flutter_settings_screens/flutter_settings_screens.dart';
 
 import '../Utils/icon_widget.dart';
 import '../Utils/utils.dart';
+import '../main.dart';
 import 'account_page.dart';
 import 'notifications_page.dart';
 
@@ -61,7 +62,10 @@ class SettingsPage extends StatelessWidget {
       title: 'Sign Out',
       subtitle: '',
       leading: const IconWidget(icon: Icons.logout, color: Colors.blueAccent),
-      onTap: () => FirebaseAuth.instance.signOut());
+      onTap: () {
+        FirebaseAuth.instance.signOut();
+        navigatorKey.currentState!.popUntil((route) => route.isFirst);
+      });
 
   Widget buildDeleteAccount() => SimpleSettingsTile(
         title: 'Delete Account',

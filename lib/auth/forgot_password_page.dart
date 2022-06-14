@@ -36,7 +36,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Text(
-                  'Receive an email to\reset your password',
+                  'Receive an email to \n reset your password',
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 24),
                 ),
@@ -54,7 +54,8 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                 ),
                 const SizedBox(height: 20),
                 ElevatedButton.icon(
-                  onPressed: () {}, //todo Add reset password thingy
+                  onPressed: () =>
+                      resetPassword(), //todo Add reset password thingy
                   icon: const Icon(Icons.email_outlined),
                   label: const Text(
                     'Reset Password',

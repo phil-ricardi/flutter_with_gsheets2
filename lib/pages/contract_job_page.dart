@@ -1,7 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 
 class ContractJobForm extends StatefulWidget {
@@ -66,13 +66,13 @@ class ContractJobFormState extends State<ContractJobForm> {
                           },
                         ),
                       ),
-                      // locale: const Locale.fromSubtags(languageCode: 'fr'),
                     ),
                     FormBuilderDateTimePicker(
                       name: 'start time',
                       timePickerInitialEntryMode: TimePickerEntryMode.dial,
-                      initialValue: DateTime.now(),
-                      format: DateFormat('EEE - MM/dd/yy'),
+                      initialValue:
+                          DateTime.now().subtract(const Duration(hours: 1)),
+                      format: DateFormat('hh:mm a'),
                       inputType: InputType.time,
                       decoration: InputDecoration(
                         labelText: 'Start Time',
@@ -91,6 +91,7 @@ class ContractJobFormState extends State<ContractJobForm> {
                       name: 'end time',
                       timePickerInitialEntryMode: TimePickerEntryMode.dial,
                       initialValue: DateTime.now(),
+                      format: DateFormat('hh:mm a'),
                       inputType: InputType.time,
                       decoration: InputDecoration(
                         labelText: 'End Time',

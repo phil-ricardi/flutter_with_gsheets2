@@ -71,7 +71,7 @@ class _HomePageState extends State<HomePage> {
                 onPressed: () => Navigator.pushNamed(context, '/contract'),
                 icon: const Icon(Icons.inventory_rounded, size: 32),
                 label: const Text(
-                  'Invoice',
+                  'Contract Form',
                   style: TextStyle(fontSize: 24),
                 ),
               ),
