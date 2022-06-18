@@ -1,19 +1,19 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 
-class CompleteForm extends StatefulWidget {
-  const CompleteForm({Key? key}) : super(key: key);
+class InvoicePage extends StatefulWidget {
+  const InvoicePage({Key? key}) : super(key: key);
 
   @override
-  CompleteFormState createState() {
-    return CompleteFormState();
+  InvoicePageState createState() {
+    return InvoicePageState();
   }
 }
 
-class CompleteFormState extends State<CompleteForm> {
+class InvoicePageState extends State<InvoicePage> {
   final _formKey = GlobalKey<FormBuilderState>();
   final _ageKey = GlobalKey<FormBuilderState>();
   final db = FirebaseFirestore.instance;
@@ -71,12 +71,13 @@ class CompleteFormState extends State<CompleteForm> {
                           },
                         ),
                       ),
-                      // locale: const Locale.fromSubtags(languageCode: 'fr'),
                     ),
                     FormBuilderDateTimePicker(
                       name: 'start time',
                       timePickerInitialEntryMode: TimePickerEntryMode.dial,
-                      initialValue: DateTime.now(),
+                      initialValue: DateTime.now()
+                        ..subtract(const Duration(hours: 1)),
+                      format: DateFormat('hh:mm a'),
                       inputType: InputType.time,
                       decoration: InputDecoration(
                         labelText: 'Start Time',
@@ -88,13 +89,12 @@ class CompleteFormState extends State<CompleteForm> {
                           },
                         ),
                       ),
-                      initialTime: const TimeOfDay(hour: 8, minute: 0),
-                      // locale: const Locale.fromSubtags(languageCode: 'fr'),
                     ),
                     FormBuilderDateTimePicker(
                       name: 'end time',
                       timePickerInitialEntryMode: TimePickerEntryMode.dial,
                       initialValue: DateTime.now(),
+                      format: DateFormat('hh:mm a'),
                       inputType: InputType.time,
                       decoration: InputDecoration(
                         labelText: 'End Time',
@@ -106,8 +106,6 @@ class CompleteFormState extends State<CompleteForm> {
                           },
                         ),
                       ),
-                      initialTime: const TimeOfDay(hour: 16, minute: 30),
-                      // locale: const Locale.fromSubtags(languageCode: 'fr'),
                     ),
                     FormBuilderDateRangePicker(
                       name: 'date_range',
@@ -120,11 +118,12 @@ class CompleteFormState extends State<CompleteForm> {
                         helperText: 'Helper text',
                         hintText: 'Hint text',
                         suffixIcon: IconButton(
-                            icon: const Icon(Icons.close),
-                            onPressed: () {
-                              _formKey.currentState!.fields['date_range']
-                                  ?.didChange(null);
-                            }),
+                          icon: const Icon(Icons.close),
+                          onPressed: () {
+                            _formKey.currentState!.fields['date_range']
+                                ?.didChange(null);
+                          },
+                        ),
                       ),
                     ),
 
@@ -355,7 +354,6 @@ class CompleteFormState extends State<CompleteForm> {
                       onPressed: () {
                         _formKey.currentState?.reset();
                       },
-                      // color: Theme.of(context).colorScheme.secondary,
                       child: Text(
                         'Reset Form',
                         style: TextStyle(

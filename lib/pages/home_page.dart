@@ -66,6 +66,15 @@ class _HomePageState extends State<HomePage> {
                   style: TextStyle(fontSize: 24),
                 ),
               ),
+              const SizedBox(height: 40),
+              ElevatedButton.icon(
+                onPressed: () => Navigator.pushNamed(context, '/contract'),
+                icon: const Icon(Icons.inventory_rounded, size: 32),
+                label: const Text(
+                  'Contract Form',
+                  style: TextStyle(fontSize: 24),
+                ),
+              ),
               Expanded(
                 child: TabBarView(
                   children: [

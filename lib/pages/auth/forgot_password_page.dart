@@ -2,7 +2,7 @@ import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-import '../Utils/utils.dart';
+import '../../Utils/utils.dart';
 
 class ForgotPasswordPage extends StatefulWidget {
   const ForgotPasswordPage({Key? key}) : super(key: key);
@@ -36,7 +36,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Text(
-                  'Receive an email to \n reset your password',
+                  'Receive an email to\reset your password',
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 24),
                 ),
@@ -54,8 +54,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                 ),
                 const SizedBox(height: 20),
                 ElevatedButton.icon(
-                  onPressed: () =>
-                      resetPassword(), //todo Add reset password thingy
+                  onPressed: () {},
                   icon: const Icon(Icons.email_outlined),
                   label: const Text(
                     'Reset Password',

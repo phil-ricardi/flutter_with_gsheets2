@@ -1,16 +1,18 @@
+import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_settings_screens/flutter_settings_screens.dart';
-import 'package:form_builder_validators/form_builder_validators.dart';
 
+// Utils
 import 'Utils/utils.dart';
-// Pages
+// Auth
 import 'auth/auth_page.dart';
 import 'auth/verify_email_page.dart';
+// Pages
+import 'pages/contract_job_page.dart';
 import 'pages/invoice_page.dart';
 import 'pages/settings_page.dart';
+import 'theme/theme.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 Future<void> main() async {
@@ -37,35 +39,16 @@ class _MyAppState extends State<MyApp> {
       defaultValue: true,
       builder: (_, isDarkMode, __) => MaterialApp(
         title: MyApp.title,
-        debugShowCheckedModeBanner: false,
         navigatorKey: navigatorKey,
         scaffoldMessengerKey: Utils.messengerKey,
-        localizationsDelegates: const [
-          FormBuilderLocalizations.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-        ],
-        supportedLocales: FormBuilderLocalizations.delegate.supportedLocales,
-        theme: isDarkMode
-            ? ThemeData.dark().copyWith(
-                primaryColor: Colors.teal,
-                secondaryHeaderColor: Colors.white,
-                scaffoldBackgroundColor: const Color(0xFF170635),
-                canvasColor: const Color.fromARGB(255, 18, 24, 105),
-                errorColor: const Color.fromARGB(255, 199, 3, 3),
-              )
-            : ThemeData.light().copyWith(
-                primaryColor: Colors.teal,
-                secondaryHeaderColor: Colors.black,
-                scaffoldBackgroundColor: const Color.fromARGB(255, 21, 61, 190),
-                canvasColor: const Color.fromARGB(255, 108, 163, 226),
-                errorColor: const Color.fromARGB(255, 231, 19, 19),
-              ),
+        debugShowCheckedModeBanner: false,
+        theme: isDarkMode ? darkTheme : lightTheme,
         initialRoute: '/',
         routes: {
           '/': (context) => const MainPage(),
           '/settings': (context) => const SettingsPage(),
-          '/invoice': (context) => const CompleteForm(),
+          '/invoice': (context) => const InvoicePage(),
+          '/contract': (context) => const ContractJobForm(),
         },
       ),
     );
