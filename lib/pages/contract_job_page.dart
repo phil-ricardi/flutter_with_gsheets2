@@ -107,6 +107,7 @@ class ContractJobFormState extends State<ContractJobForm> {
                       // locale: const Locale.fromSubtags(languageCode: 'fr'),
                     ),
                     FormBuilderDateRangePicker(
+                      //! DATE RANGE
                       name: 'date_range',
                       firstDate: DateTime(1970),
                       lastDate: DateTime(2030),
@@ -252,6 +253,7 @@ class ContractJobFormState extends State<ContractJobForm> {
                       valueTransformer: (val) => val?.toString(),
                     ),
                     FormBuilderRadioGroup<String>(
+                      //! JOB TYPE
                       decoration: const InputDecoration(
                         labelText: 'Job Type',
                       ),
@@ -261,13 +263,7 @@ class ContractJobFormState extends State<ContractJobForm> {
                       validator: FormBuilderValidators.compose(
                         [FormBuilderValidators.required()],
                       ),
-                      options: [
-                        'Plumbing',
-                        'Heating',
-                        'Emergency',
-                        'Weekend',
-                        'Other'
-                      ]
+                      options: ['Plumbing', 'Heating', 'Other']
                           .map((lang) => FormBuilderFieldOption(
                                 value: lang,
                                 child: Text(lang),
@@ -275,25 +271,7 @@ class ContractJobFormState extends State<ContractJobForm> {
                           .toList(growable: false),
                       controlAffinity: ControlAffinity.trailing,
                     ),
-                    FormBuilderSegmentedControl(
-                      decoration: const InputDecoration(
-                        labelText: 'Movie Rating (Archer)',
-                      ),
-                      name: 'movie_rating',
-                      // initialValue: 1,
-                      // textStyle: TextStyle(fontWeight: FontWeight.bold),
-                      options: List.generate(5, (i) => i + 1)
-                          .map((number) => FormBuilderFieldOption(
-                                value: number,
-                                child: Text(
-                                  number.toString(),
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ))
-                          .toList(),
-                      onChanged: _onChanged,
-                    ),
+
                     FormBuilderSwitch(
                       title:
                           const Text('Are you sure you are ready to submit?'),
@@ -332,6 +310,7 @@ class ContractJobFormState extends State<ContractJobForm> {
                 children: <Widget>[
                   Expanded(
                     child: ElevatedButton(
+                      //! SUBMIT
                       onPressed: () {
                         if (_formKey.currentState?.saveAndValidate() ?? false) {
                           debugPrint(_formKey.currentState?.value.toString());
@@ -349,6 +328,7 @@ class ContractJobFormState extends State<ContractJobForm> {
                   const SizedBox(width: 20),
                   Expanded(
                     child: OutlinedButton(
+                      //! RESET
                       onPressed: () {
                         _formKey.currentState?.reset();
                       },

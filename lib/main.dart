@@ -1,7 +1,9 @@
-import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_settings_screens/flutter_settings_screens.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
 
 // Utils
 import 'Utils/utils.dart';
@@ -38,6 +40,11 @@ class _MyAppState extends State<MyApp> {
       cacheKey: SettingsPage.keyDarkMode,
       defaultValue: true,
       builder: (_, isDarkMode, __) => MaterialApp(
+        localizationsDelegates: const [
+          ...GlobalMaterialLocalizations.delegates,
+          GlobalWidgetsLocalizations.delegate,
+          FormBuilderLocalizations.delegate,
+        ],
         title: MyApp.title,
         navigatorKey: navigatorKey,
         scaffoldMessengerKey: Utils.messengerKey,
