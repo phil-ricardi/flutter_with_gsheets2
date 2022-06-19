@@ -11,6 +11,7 @@ import 'Utils/utils.dart';
 import 'auth/auth_page.dart';
 import 'auth/verify_email_page.dart';
 // Pages
+import 'pages/admin_page.dart';
 import 'pages/contract_job_page.dart';
 import 'pages/invoice_page.dart';
 import 'pages/settings_page.dart';
@@ -56,6 +57,7 @@ class _MyAppState extends State<MyApp> {
           '/settings': (context) => const SettingsPage(),
           '/invoice': (context) => const InvoicePage(),
           '/contract': (context) => const ContractJobForm(),
+          '/admin': (context) => const AdminPage(),
         },
       ),
     );
