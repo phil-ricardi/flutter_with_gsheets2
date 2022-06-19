@@ -16,15 +16,15 @@ class InvoicePage extends StatefulWidget {
 }
 
 class InvoicePageState extends State<InvoicePage> {
-  final db = FirebaseFirestore.instance;
   final _formKey = GlobalKey<FormBuilderState>();
-  final TextEditingController _controller = TextEditingController();
+  final TextEditingController _dateController = TextEditingController();
   final TextEditingController _jobDescriptionController =
       TextEditingController();
   final TextEditingController _startTimeController = TextEditingController();
   final TextEditingController _endTimeController = TextEditingController();
+  final String _user = 'philR';
 
-  bool _ageHasError = false;
+  bool _jobDescriptionHasError = true;
   bool _statisHasError = false;
   bool _jobTypeHasError = true;
   bool autoValidate = true;
@@ -40,8 +40,10 @@ class InvoicePageState extends State<InvoicePage> {
 
   @override
   void dispose() {
-    _controller.dispose();
+    _dateController.dispose();
     _jobDescriptionController.dispose();
+    _startTimeController.dispose();
+    _endTimeController.dispose();
     super.dispose();
   }
 
@@ -68,11 +70,7 @@ class InvoicePageState extends State<InvoicePage> {
                   debugPrint(_formKey.currentState!.value.toString());
                 },
                 autovalidateMode: AutovalidateMode.disabled,
-                initialValue: const {
-                  'movie_rating': 5,
-                  'best_language': 'Dart',
-                  'age': '13'
-                },
+
                 skipDisabled: true,
                 child: Column(
                   children: <Widget>[
@@ -80,7 +78,7 @@ class InvoicePageState extends State<InvoicePage> {
                     FormBuilderDateTimePicker(
                       //! DATE
                       name: 'date',
-                      controller: _controller,
+                      controller: _dateController,
                       initialEntryMode: DatePickerEntryMode.calendar,
                       initialValue: DateTime.now(),
                       inputType: InputType.date,
@@ -167,40 +165,11 @@ class InvoicePageState extends State<InvoicePage> {
                       decoration:
                           const InputDecoration(labelText: 'Price Range'),
                     ),
-                    FormBuilderTextField(
-                      //! TEXT FIELD
-                      autovalidateMode: AutovalidateMode.always,
-                      name: 'age',
-                      decoration: InputDecoration(
-                        labelText: 'Age',
-                        suffixIcon: _ageHasError
-                            ? const Icon(Icons.error, color: Colors.red)
-                            : const Icon(Icons.check, color: Colors.green),
-                      ),
-                      onChanged: (val) {
-                        setState(
-                          () {
-                            _ageHasError = !(_formKey
-                                    .currentState?.fields['age']
-                                    ?.validate() ??
-                                false);
-                          },
-                        );
-                      },
-                      // valueTransformer: (text) => num.tryParse(text),
-                      validator: FormBuilderValidators.compose([
-                        FormBuilderValidators.required(),
-                        FormBuilderValidators.numeric(),
-                        FormBuilderValidators.max(70),
-                      ]),
-                      // initialValue: '12',
-                      keyboardType: TextInputType.number,
-                      textInputAction: TextInputAction.next,
-                    ),
                     FormBuilderDropdown<String>(
                       //! JOB STATIS
                       // autovalidate: true,
-                      name: 'statis',
+                      name: 'status',
+
                       decoration: InputDecoration(
                         labelText: 'Statis',
                         suffix: _statisHasError
@@ -268,41 +237,34 @@ class InvoicePageState extends State<InvoicePage> {
                     ),
                     FormBuilderTextField(
                       //! JOB DESCRIPTION
-                      name: 'Job Description',
-                      controller: _controller,
+                      name: 'job description',
+                      controller: _jobDescriptionController,
                       keyboardType: TextInputType.multiline,
-                      decoration:
-                          const InputDecoration(labelText: 'Job Description'),
-                      validator: (String? text) {
-                        if (text == null || text.isEmpty) {
-                          return 'Please enter a job description';
-                        }
-                        return null;
-                      },
-                    ),
-                    FormBuilderCheckboxGroup<String>(
-                      //! CHECKBOX GROUP
-                      autovalidateMode: AutovalidateMode.onUserInteraction,
-                      decoration: const InputDecoration(
-                          labelText: 'The language of my people'),
-                      name: 'languages',
-                      // initialValue: const ['Dart'],
-                      options: const [
-                        FormBuilderFieldOption(value: 'Dart'),
-                        FormBuilderFieldOption(value: 'Kotlin'),
-                        FormBuilderFieldOption(value: 'Java'),
-                        FormBuilderFieldOption(value: 'Swift'),
-                        FormBuilderFieldOption(value: 'Objective-C'),
-                      ],
-                      onChanged: _onChanged,
-                      separator: const VerticalDivider(
-                        width: 10,
-                        thickness: 5,
-                        color: Colors.red,
+                      decoration: InputDecoration(
+                        labelText: 'Job Description',
+                        suffix: _jobDescriptionHasError
+                            ? const Icon(Icons.error, color: Colors.red)
+                            : const Icon(Icons.check, color: Colors.green),
                       ),
+                      onChanged: (val) {
+                        setState(() {
+                          _jobDescriptionHasError = !(_formKey
+                                  .currentState?.fields['job description']
+                                  ?.validate() ??
+                              false);
+                        });
+                      },
                       validator: FormBuilderValidators.compose([
-                        FormBuilderValidators.minLength(1),
-                        FormBuilderValidators.maxLength(3),
+                        FormBuilderValidators.required(),
+                        FormBuilderValidators.minLength(15),
+                        (String? text) {
+                          if (text == null || text.isEmpty) {
+                            return 'Please enter a job description';
+                          } else if (text == 'Enter Job Description') {
+                            return 'Please enter a job description';
+                          }
+                          return null;
+                        },
                       ]),
                     ),
                     FormBuilderCheckbox(
@@ -349,44 +311,33 @@ class InvoicePageState extends State<InvoicePage> {
                   Expanded(
                     //! SUBMIT
                     child: ElevatedButton(
-                      onPressed: () {
-                        if (_formKey.currentState?.saveAndValidate() ?? false) {
-                          debugPrint(_formKey.currentState?.value.toString());
-                        } else {
-                          debugPrint(_formKey.currentState?.value.toString());
-                          debugPrint('validation failed');
-                        }
-                      },
-                      child: const Text(
-                        'Submit to Office 1',
-                        style: TextStyle(color: Colors.redAccent),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 20),
-                  Expanded(
-                    //! SUBMIT NEW
-                    child: ElevatedButton(
                       onPressed: () async {
                         // only if form is valid
                         if (_formKey.currentState!.validate()) {
                           try {
                             // Get a reference to the `invoice` collection
-                            final collection = FirebaseFirestore.instance
+                            final invoiceCollection = FirebaseFirestore.instance
                                 .collection('invoice');
 
-                            await collection.doc().set({
+                            final data = {
+                              'employee': _user,
+                              'date of job': _dateController.text,
+                              'time start': _startTimeController.text,
+                              'time end': _endTimeController.text,
+                              'job description': _jobDescriptionController.text,
+                              //'status': _statusController.text,
                               'timestamp': FieldValue.serverTimestamp(),
-                              'invoice': _controller.text,
-                            });
+                            };
+
+                            await invoiceCollection.doc().set(data);
                             Utils.showSnackBar('Sent successfully to server');
                           } catch (e) {
-                            Utils.showSnackBar('Error sending to server');
+                            Utils.showSnackBar('Something fucked up!!!!');
                           }
                         }
                       },
                       child: const Text(
-                        'Submit to Office 2',
+                        'Submit to Office',
                         style: TextStyle(color: Colors.white),
                       ),
                     ),
