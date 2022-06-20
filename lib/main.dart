@@ -1,7 +1,9 @@
-import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_settings_screens/flutter_settings_screens.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
 
 // Utils
 import 'Utils/utils.dart';
@@ -9,6 +11,7 @@ import 'Utils/utils.dart';
 import 'auth/auth_page.dart';
 import 'auth/verify_email_page.dart';
 // Pages
+import 'pages/admin_page.dart';
 import 'pages/contract_job_page.dart';
 import 'pages/invoice_page.dart';
 import 'pages/settings_page.dart';
@@ -38,6 +41,11 @@ class _MyAppState extends State<MyApp> {
       cacheKey: SettingsPage.keyDarkMode,
       defaultValue: true,
       builder: (_, isDarkMode, __) => MaterialApp(
+        localizationsDelegates: const [
+          ...GlobalMaterialLocalizations.delegates,
+          GlobalWidgetsLocalizations.delegate,
+          FormBuilderLocalizations.delegate,
+        ],
         title: MyApp.title,
         navigatorKey: navigatorKey,
         scaffoldMessengerKey: Utils.messengerKey,
@@ -49,6 +57,7 @@ class _MyAppState extends State<MyApp> {
           '/settings': (context) => const SettingsPage(),
           '/invoice': (context) => const InvoicePage(),
           '/contract': (context) => const ContractJobForm(),
+          '/admin': (context) => const AdminPage(),
         },
       ),
     );

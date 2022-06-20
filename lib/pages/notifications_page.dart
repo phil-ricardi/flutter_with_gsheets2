@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:flutter_settings_screens/flutter_settings_screens.dart';
+
 import '/Utils/icon_widget.dart';
 
 class NotificationsPage extends StatelessWidget {
@@ -43,8 +45,7 @@ class NotificationsPage extends StatelessWidget {
   Widget buildNewsletter() => SwitchSettingsTile(
         title: 'News For You',
         settingKey: keyNewsletter,
-        leading: const IconWidget(
-            icon: Icons.text_snippet, color: Colors.pinkAccent),
+        leading: const IconWidget(icon: Icons.text_snippet, color: Colors.pink),
       );
   Widget buildAppUpdates() => SwitchSettingsTile(
         title: 'App Updates',
