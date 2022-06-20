@@ -1,9 +1,8 @@
-// Copyright 2019 The Flutter Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
-
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
+
+import '../utils/inkwell_overlay.dart';
+import '../utils/open_container_wrapper.dart';
 
 const double _fabDimension = 56;
 
@@ -19,8 +18,6 @@ class _AdminPageState extends State<AdminPage> {
   ContainerTransitionType _transitionType = ContainerTransitionType.fade;
 
   void _showSettingsBottomModalSheet(BuildContext context) {
-    //final localizations = GalleryLocalizations.of(context);
-
     showModalBottomSheet<void>(
       context: context,
       builder: (context) {
@@ -80,8 +77,6 @@ class _AdminPageState extends State<AdminPage> {
   @override
   Widget build(BuildContext context) {
     return Navigator(
-      // Adding [ValueKey] to make sure that the widget gets rebuilt when
-      // changing type.
       key: ValueKey(_transitionType),
       onGenerateRoute: (settings) {
         return MaterialPageRoute<void>(
@@ -115,26 +110,24 @@ class _AdminPageState extends State<AdminPage> {
             body: ListView(
               padding: const EdgeInsets.all(8),
               children: [
-                _OpenContainerWrapper(
+                OpenContainerWrapper(
                   transitionType: _transitionType,
                   closedBuilder: (context, openContainer) {
                     return _DetailsCard(openContainer: openContainer);
                   },
                 ),
                 const SizedBox(height: 16),
-                _OpenContainerWrapper(
+                OpenContainerWrapper(
                   transitionType: _transitionType,
                   closedBuilder: (context, openContainer) {
                     return _DetailsListTile(openContainer: openContainer);
                   },
                 ),
-                const SizedBox(
-                  height: 16,
-                ),
+                const SizedBox(height: 16),
                 Row(
                   children: [
                     Expanded(
-                      child: _OpenContainerWrapper(
+                      child: OpenContainerWrapper(
                         transitionType: _transitionType,
                         closedBuilder: (context, openContainer) {
                           return _SmallDetailsCard(
@@ -144,11 +137,9 @@ class _AdminPageState extends State<AdminPage> {
                         },
                       ),
                     ),
-                    const SizedBox(
-                      width: 8,
-                    ),
+                    const SizedBox(width: 8),
                     Expanded(
-                      child: _OpenContainerWrapper(
+                      child: OpenContainerWrapper(
                         transitionType: _transitionType,
                         closedBuilder: (context, openContainer) {
                           return _SmallDetailsCard(
@@ -160,13 +151,11 @@ class _AdminPageState extends State<AdminPage> {
                     ),
                   ],
                 ),
-                const SizedBox(
-                  height: 16,
-                ),
+                const SizedBox(height: 16),
                 Row(
                   children: [
                     Expanded(
-                      child: _OpenContainerWrapper(
+                      child: OpenContainerWrapper(
                         transitionType: _transitionType,
                         closedBuilder: (context, openContainer) {
                           return _SmallDetailsCard(
@@ -176,11 +165,9 @@ class _AdminPageState extends State<AdminPage> {
                         },
                       ),
                     ),
-                    const SizedBox(
-                      width: 8,
-                    ),
+                    const SizedBox(width: 8),
                     Expanded(
-                      child: _OpenContainerWrapper(
+                      child: OpenContainerWrapper(
                         transitionType: _transitionType,
                         closedBuilder: (context, openContainer) {
                           return _SmallDetailsCard(
@@ -190,11 +177,9 @@ class _AdminPageState extends State<AdminPage> {
                         },
                       ),
                     ),
-                    const SizedBox(
-                      width: 8,
-                    ),
+                    const SizedBox(width: 8),
                     Expanded(
-                      child: _OpenContainerWrapper(
+                      child: OpenContainerWrapper(
                         transitionType: _transitionType,
                         closedBuilder: (context, openContainer) {
                           return _SmallDetailsCard(
@@ -206,13 +191,12 @@ class _AdminPageState extends State<AdminPage> {
                     ),
                   ],
                 ),
-                const SizedBox(
-                  height: 16,
-                ),
+                const SizedBox(height: 16),
                 ...List.generate(10, (index1) {
                   return OpenContainer<bool>(
                     transitionType: _transitionType,
-                    openBuilder: (context, openContainer) => _DetailsPage(),
+                    openBuilder: (context, openContainer) =>
+                        const DetailsPage(),
                     tappable: false,
                     closedShape: const RoundedRectangleBorder(),
                     closedElevation: 1,
@@ -241,7 +225,7 @@ class _AdminPageState extends State<AdminPage> {
             ),
             floatingActionButton: OpenContainer(
               transitionType: _transitionType,
-              openBuilder: (context, openContainer) => _DetailsPage(),
+              openBuilder: (context, openContainer) => const DetailsPage(),
               closedElevation: 6,
               closedShape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(
@@ -269,26 +253,6 @@ class _AdminPageState extends State<AdminPage> {
   }
 }
 
-class _OpenContainerWrapper extends StatelessWidget {
-  const _OpenContainerWrapper({
-    required this.closedBuilder,
-    required this.transitionType,
-  });
-
-  final CloseContainerBuilder closedBuilder;
-  final ContainerTransitionType transitionType;
-
-  @override
-  Widget build(BuildContext context) {
-    return OpenContainer<bool>(
-      transitionType: transitionType,
-      openBuilder: (context, openContainer) => _DetailsPage(),
-      tappable: false,
-      closedBuilder: closedBuilder,
-    );
-  }
-}
-
 class _DetailsCard extends StatelessWidget {
   const _DetailsCard({required this.openContainer});
 
@@ -296,9 +260,7 @@ class _DetailsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //final localizations = GalleryLocalizations.of(context)!;
-
-    return _InkWellOverlay(
+    return InkWellOverlay(
       openContainer: openContainer,
       height: 300,
       child: Column(
@@ -360,7 +322,7 @@ class _SmallDetailsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _InkWellOverlay(
+    return InkWellOverlay(
       openContainer: openContainer,
       height: 300,
       child: Column(
@@ -386,9 +348,7 @@ class _SmallDetailsCard extends StatelessWidget {
                   'Text in a SmallDetailsCard',
                   style: TextStyle(color: Colors.purple),
                 ),
-                const SizedBox(
-                  height: 4,
-                ),
+                const SizedBox(height: 4),
                 Text(
                   subtitle,
                 ),
@@ -410,7 +370,7 @@ class _DetailsListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     const height = 120.0;
 
-    return _InkWellOverlay(
+    return InkWellOverlay(
       openContainer: openContainer,
       height: height,
       child: Row(
@@ -436,9 +396,7 @@ class _DetailsListTile extends StatelessWidget {
                     'Subtitle DetailsListTile',
                     style: TextStyle(color: Colors.red),
                   ),
-                  SizedBox(
-                    height: 8,
-                  ),
+                  SizedBox(height: 8),
                   Text(
                     'Lorem ipsum dolor sit amet, consectetur '
                     'adipiscing elit,',
@@ -454,31 +412,9 @@ class _DetailsListTile extends StatelessWidget {
   }
 }
 
-class _InkWellOverlay extends StatelessWidget {
-  //! inkwell
-  const _InkWellOverlay({
-    required this.openContainer,
-    required this.height,
-    required this.child,
-  });
+class DetailsPage extends StatelessWidget {
+  const DetailsPage({Key? key}) : super(key: key);
 
-  final VoidCallback openContainer;
-  final double height;
-  final Widget child;
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      height: height,
-      child: InkWell(
-        onTap: openContainer,
-        child: child,
-      ),
-    );
-  }
-}
-
-class _DetailsPage extends StatelessWidget {
   //! page for when clicking in tile
 
   @override
@@ -507,9 +443,7 @@ class _DetailsPage extends StatelessWidget {
                 Text(
                   'CONTAINER TEXT FOR FIGURING THIS OUT',
                 ),
-                SizedBox(
-                  height: 10,
-                ),
+                SizedBox(height: 10),
                 Text(
                   'bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla ',
                   style: TextStyle(
