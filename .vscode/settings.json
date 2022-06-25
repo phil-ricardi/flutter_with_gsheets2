@@ -11,5 +11,6 @@
     "dart": {
       "parser": "code"
     }
-  }
+  },
+  "editor.fontSize": 16
 }

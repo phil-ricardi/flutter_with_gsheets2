@@ -113,8 +113,8 @@ class ContractJobFormState extends State<ContractJobForm> {
                       initialTime: const TimeOfDay(hour: 16, minute: 30),
                       // locale: const Locale.fromSubtags(languageCode: 'fr'),
                     ),
+                    //! DATE RANGE
                     FormBuilderDateRangePicker(
-                      //! DATE RANGE
                       name: 'date_range',
                       firstDate: DateTime(1970),
                       lastDate: DateTime(2030),

@@ -76,8 +76,8 @@ class InvoicePageState extends State<InvoicePage> {
                 child: Column(
                   children: <Widget>[
                     const SizedBox(height: 15),
+                    //! DATE
                     FormBuilderDateTimePicker(
-                      //! DATE
                       name: 'date',
                       controller: _dateController,
                       initialEntryMode: DatePickerEntryMode.calendar,
@@ -94,8 +94,8 @@ class InvoicePageState extends State<InvoicePage> {
                         ),
                       ),
                     ),
+                    //! START TIME
                     FormBuilderDateTimePicker(
-                      //! START TIME
                       name: 'start time',
                       controller: _startTimeController,
                       timePickerInitialEntryMode: TimePickerEntryMode.dial,
@@ -115,11 +115,10 @@ class InvoicePageState extends State<InvoicePage> {
                         ),
                       ),
                     ),
+                    //! END TIME
                     FormBuilderDateTimePicker(
-                      //! END TIME
                       name: 'end time',
                       controller: _endTimeController,
-
                       timePickerInitialEntryMode: TimePickerEntryMode.dial,
                       initialValue: roundup15Min,
                       format: DateFormat('hh:mm a'),
@@ -135,8 +134,8 @@ class InvoicePageState extends State<InvoicePage> {
                         ),
                       ),
                     ),
+                    //! SLIDER sdsdsd
                     FormBuilderSlider(
-                      //! SLIDER
                       name: 'slider',
                       validator: FormBuilderValidators.compose([
                         FormBuilderValidators.min(6),
@@ -152,8 +151,8 @@ class InvoicePageState extends State<InvoicePage> {
                         labelText: 'Number of things',
                       ),
                     ),
+                    //! RANGE SLIDER
                     FormBuilderRangeSlider(
-                      //! RANGE SLIDER
                       name: 'range_slider',
                       // validator: FormBuilderValidators.compose([FormBuilderValidators.min(context, 6)]),
                       onChanged: _onChanged,
@@ -166,8 +165,8 @@ class InvoicePageState extends State<InvoicePage> {
                       decoration:
                           const InputDecoration(labelText: 'Price Range'),
                     ),
+                    //! JOB STATIS
                     FormBuilderDropdown<String>(
-                      //! JOB STATIS
                       // autovalidate: true,
                       name: 'status',
 
@@ -199,8 +198,8 @@ class InvoicePageState extends State<InvoicePage> {
                       },
                       valueTransformer: (val) => val?.toString(),
                     ),
+                    //! JOB TYPE
                     FormBuilderRadioGroup<String>(
-                      //! JOB TYPE
                       name: 'job type',
                       decoration: InputDecoration(
                         labelText: 'Job Type',
@@ -209,7 +208,6 @@ class InvoicePageState extends State<InvoicePage> {
                             : const Icon(Icons.check, color: Colors.green),
                       ),
                       initialValue: null,
-
                       onChanged: (val) {
                         setState(() {
                           _jobTypeHasError = !(_formKey
@@ -228,16 +226,18 @@ class InvoicePageState extends State<InvoicePage> {
                         'Weekend',
                         'Other'
                       ]
-                          .map((lang) => FormBuilderFieldOption(
-                                value: lang,
-                                child: Text(lang),
-                              ))
+                          .map(
+                            (lang) => FormBuilderFieldOption(
+                              value: lang,
+                              child: Text(lang),
+                            ),
+                          )
                           .toList(growable: false),
                       controlAffinity: ControlAffinity.trailing,
                       valueTransformer: (val) => val?.toString(),
                     ),
+                    //! JOB DESCRIPTION
                     FormBuilderTextField(
-                      //! JOB DESCRIPTION
                       name: 'job description',
                       controller: _jobDescriptionController,
                       keyboardType: TextInputType.multiline,
@@ -268,8 +268,8 @@ class InvoicePageState extends State<InvoicePage> {
                         },
                       ]),
                     ),
+                    //! CHECKBOX
                     FormBuilderCheckbox(
-                      //! CHECKBOX
                       name: 'accept_terms',
                       initialValue: false,
                       onChanged: _onChanged,
@@ -309,8 +309,8 @@ class InvoicePageState extends State<InvoicePage> {
               ),
               Row(
                 children: <Widget>[
+                  //! SUBMIT BUTTON
                   Expanded(
-                    //! SUBMIT
                     child: ElevatedButton(
                       onPressed: () async {
                         // only if form is valid
@@ -326,7 +326,7 @@ class InvoicePageState extends State<InvoicePage> {
                               'time start': _startTimeController.text,
                               'time end': _endTimeController.text,
                               'job description': _jobDescriptionController.text,
-                              //'status': _statusController.text,
+                              // 'status': _statusController.text,
                               'timestamp': FieldValue.serverTimestamp(),
                             };
 
@@ -344,8 +344,8 @@ class InvoicePageState extends State<InvoicePage> {
                     ),
                   ),
                   const SizedBox(width: 20),
+                  //! RESET BUTTON
                   Expanded(
-                    //! RESET
                     child: OutlinedButton(
                       onPressed: () {
                         _formKey.currentState?.reset();
