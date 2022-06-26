@@ -25,16 +25,16 @@ class InvoicePageState extends State<InvoicePage> {
   final String _user = 'philR';
 
   bool _jobDescriptionHasError = true;
-  bool _statisHasError = false;
+  bool _statusHasError = true;
   bool _jobTypeHasError = true;
+  bool _serviceTypeHasError = true;
   bool autoValidate = true;
   bool showSegmentedControl = true;
   bool readOnly = false;
 
-  final jobStatis = ['Completed', 'In Progress', 'Waiting', 'On Hold'];
+  final jobStatus = ['Completed', 'In Progress', 'Waiting', 'On Hold'];
   final user = <String, dynamic>{"employee": ""};
   static DateTime dt = DateTime.now();
-  final roundup15Min = alignDateTime(dt, const Duration(minutes: 15));
 
   void _onChanged(dynamic val) => debugPrint(val.toString());
 
@@ -94,111 +94,7 @@ class InvoicePageState extends State<InvoicePage> {
                         ),
                       ),
                     ),
-                    //! START TIME
-                    FormBuilderDateTimePicker(
-                      name: 'start time',
-                      controller: _startTimeController,
-                      timePickerInitialEntryMode: TimePickerEntryMode.dial,
-                      initialValue:
-                          roundup15Min.subtract(const Duration(hours: 1)),
-                      //DateTime.now().subtract(const Duration(hours: 1)),
-                      format: DateFormat('hh:mm a'),
-                      inputType: InputType.time,
-                      decoration: InputDecoration(
-                        labelText: 'Start Time',
-                        suffixIcon: IconButton(
-                          icon: const Icon(Icons.close),
-                          onPressed: () {
-                            _formKey.currentState!.fields['time']
-                                ?.didChange(null);
-                          },
-                        ),
-                      ),
-                    ),
-                    //! END TIME
-                    FormBuilderDateTimePicker(
-                      name: 'end time',
-                      controller: _endTimeController,
-                      timePickerInitialEntryMode: TimePickerEntryMode.dial,
-                      initialValue: roundup15Min,
-                      format: DateFormat('hh:mm a'),
-                      inputType: InputType.time,
-                      decoration: InputDecoration(
-                        labelText: 'End Time',
-                        suffixIcon: IconButton(
-                          icon: const Icon(Icons.close),
-                          onPressed: () {
-                            _formKey.currentState!.fields['time']
-                                ?.didChange(null);
-                          },
-                        ),
-                      ),
-                    ),
-                    //! SLIDER sdsdsd
-                    FormBuilderSlider(
-                      name: 'slider',
-                      validator: FormBuilderValidators.compose([
-                        FormBuilderValidators.min(6),
-                      ]),
-                      onChanged: _onChanged,
-                      min: 0.0,
-                      max: 10.0,
-                      initialValue: 7.0,
-                      divisions: 20,
-                      activeColor: Colors.red,
-                      inactiveColor: Colors.pink[100],
-                      decoration: const InputDecoration(
-                        labelText: 'Number of things',
-                      ),
-                    ),
-                    //! RANGE SLIDER
-                    FormBuilderRangeSlider(
-                      name: 'range_slider',
-                      // validator: FormBuilderValidators.compose([FormBuilderValidators.min(context, 6)]),
-                      onChanged: _onChanged,
-                      min: 0.0,
-                      max: 100.0,
-                      initialValue: const RangeValues(4, 7),
-                      divisions: 20,
-                      activeColor: Colors.red,
-                      inactiveColor: Colors.pink[100],
-                      decoration:
-                          const InputDecoration(labelText: 'Price Range'),
-                    ),
-                    //! JOB STATIS
-                    FormBuilderDropdown<String>(
-                      // autovalidate: true,
-                      name: 'status',
-
-                      decoration: InputDecoration(
-                        labelText: 'Statis',
-                        suffix: _statisHasError
-                            ? const Icon(Icons.error, color: Colors.red)
-                            : const Icon(Icons.check, color: Colors.green),
-                      ),
-                      // initialValue: 'In Progress',
-                      allowClear: true,
-                      hint: const Text('Select Job Statis'),
-                      validator: FormBuilderValidators.compose(
-                          [FormBuilderValidators.required()]),
-                      items: jobStatis
-                          .map((statis) => DropdownMenuItem(
-                                alignment: AlignmentDirectional.center,
-                                value: statis,
-                                child: Text(statis),
-                              ))
-                          .toList(),
-                      onChanged: (val) {
-                        setState(() {
-                          _statisHasError = !(_formKey
-                                  .currentState?.fields['statis']
-                                  ?.validate() ??
-                              false);
-                        });
-                      },
-                      valueTransformer: (val) => val?.toString(),
-                    ),
-                    //! JOB TYPE
+                    //! JOB TYPE.
                     FormBuilderRadioGroup<String>(
                       name: 'job type',
                       decoration: InputDecoration(
@@ -222,10 +118,142 @@ class InvoicePageState extends State<InvoicePage> {
                       options: [
                         'Plumbing',
                         'Heating',
-                        'Emergency',
-                        'Weekend',
-                        'Other'
+                        'Air Conditioning',
+                        'Other',
                       ]
+                          .map(
+                            (lang) => FormBuilderFieldOption(
+                              value: lang,
+                              child: Text(lang),
+                            ),
+                          )
+                          .toList(growable: false),
+                      controlAffinity: ControlAffinity.trailing,
+                      valueTransformer: (val) => val?.toString(),
+                    ),
+                    //! START TIME.
+                    FormBuilderDateTimePicker(
+                      name: 'start time',
+                      controller: _startTimeController,
+                      timePickerInitialEntryMode: TimePickerEntryMode.dial,
+                      initialValue:
+                          DateTime.now().subtract(const Duration(hours: 1)),
+                      format: DateFormat('hh:mm a'),
+                      inputType: InputType.time,
+                      decoration: InputDecoration(
+                        labelText: 'Start Time',
+                        suffixIcon: IconButton(
+                          icon: const Icon(Icons.close),
+                          onPressed: () {
+                            _formKey.currentState!.fields['time']
+                                ?.didChange(null);
+                          },
+                        ),
+                      ),
+                    ),
+                    //! END TIME.
+                    FormBuilderDateTimePicker(
+                      name: 'end time',
+                      controller: _endTimeController,
+                      timePickerInitialEntryMode: TimePickerEntryMode.dial,
+                      initialValue: DateTime.now(),
+                      format: DateFormat('hh:mm a'),
+                      inputType: InputType.time,
+                      decoration: InputDecoration(
+                        labelText: 'End Time',
+                        suffixIcon: IconButton(
+                          icon: const Icon(Icons.close),
+                          onPressed: () {
+                            _formKey.currentState!.fields['time']
+                                ?.didChange(null);
+                          },
+                        ),
+                      ),
+                    ),
+                    //! SLIDER.
+                    FormBuilderSlider(
+                      name: 'slider',
+                      validator: FormBuilderValidators.compose([
+                        FormBuilderValidators.min(6),
+                      ]),
+                      onChanged: _onChanged,
+                      min: 0.0,
+                      max: 10.0,
+                      initialValue: 7.0,
+                      divisions: 20,
+                      activeColor: Colors.red,
+                      inactiveColor: Colors.pink[100],
+                      decoration: const InputDecoration(
+                        labelText: 'Number of things',
+                      ),
+                    ),
+                    //! RANGE SLIDER.
+                    FormBuilderRangeSlider(
+                      name: 'range_slider',
+                      // validator: FormBuilderValidators.compose([FormBuilderValidators.min(context, 6)]),
+                      onChanged: _onChanged,
+                      min: 0.0,
+                      max: 100.0,
+                      initialValue: const RangeValues(4, 7),
+                      divisions: 20,
+                      activeColor: Colors.red,
+                      inactiveColor: Colors.pink[100],
+                      decoration:
+                          const InputDecoration(labelText: 'Price Range'),
+                    ),
+                    //! JOB STATUS.
+                    FormBuilderDropdown<String>(
+                      name: 'status',
+                      decoration: InputDecoration(
+                        labelText: 'Status',
+                        suffix: _statusHasError
+                            ? const Icon(Icons.error, color: Colors.red)
+                            : const Icon(Icons.check, color: Colors.green),
+                      ),
+                      initialValue: null,
+                      //- allowClear: true,
+                      hint: const Text('Select Job Status'),
+                      validator: FormBuilderValidators.compose(
+                          [FormBuilderValidators.required()]),
+                      items: jobStatus
+                          .map((status) => DropdownMenuItem(
+                                alignment: AlignmentDirectional.center,
+                                value: status,
+                                child: Text(status),
+                              ))
+                          .toList(),
+                      onChanged: (val) {
+                        setState(() {
+                          _statusHasError = !(_formKey
+                                  .currentState?.fields['status']
+                                  ?.validate() ??
+                              false);
+                        });
+                      },
+                      valueTransformer: (val) => val?.toString(),
+                    ),
+                    //! SERVICE TYPE.
+                    FormBuilderRadioGroup<String>(
+                      name: 'service type',
+                      decoration: InputDecoration(
+                        labelText: 'Service Type',
+                        suffix: _serviceTypeHasError
+                            ? const Icon(Icons.error, color: Colors.red)
+                            : const Icon(Icons.check, color: Colors.green),
+                      ),
+                      initialValue: null,
+                      onChanged: (val) {
+                        setState(() {
+                          _serviceTypeHasError = !(_formKey
+                                  .currentState?.fields['service type']
+                                  ?.validate() ??
+                              false);
+                        });
+                      },
+                      validator: FormBuilderValidators.compose(
+                        [FormBuilderValidators.required()],
+                      ),
+                      options: ['Scheduled', 'Emergency', 'Weekend', 'Other']
                           .map(
                             (lang) => FormBuilderFieldOption(
                               value: lang,
@@ -289,11 +317,11 @@ class InvoicePageState extends State<InvoicePage> {
                               // Flutter doesn't allow a button inside a button
                               // https://github.com/flutter/flutter/issues/31437#issuecomment-492411086
                               /*
-                              recognizer: TapGestureRecognizer()
-                                ..onTap = () {
-                                  print('launch url');
-                                },
-                              */
+                                     recognizer: TapGestureRecognizer()
+                                     ..onTap = () {
+                                       print('launch url');
+                                  },
+                                  */
                             ),
                           ],
                         ),
