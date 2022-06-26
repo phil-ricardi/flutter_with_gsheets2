@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_settings_screens/flutter_settings_screens.dart';
+import 'package:flutter_with_gsheets2/screens/admin_portal_screen.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 
 // Utils
@@ -58,6 +59,7 @@ class _MyAppState extends State<MyApp> {
           '/invoice': (context) => const InvoicePage(),
           '/contract': (context) => const ContractJobForm(),
           '/admin': (context) => const AdminPage(),
+          '/adminPortal': (context) => const AdminPortalScreen(),
         },
       ),
     );

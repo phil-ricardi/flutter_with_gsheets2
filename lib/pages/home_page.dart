@@ -1,6 +1,6 @@
+import 'package:flutter/material.dart';
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 const _kpages = <String, IconData>{
@@ -93,6 +93,19 @@ class _HomePageState extends State<HomePage> {
                   size: 26, color: Colors.red),
               label: Text(
                 'Admin',
+                style: GoogleFonts.workSans(
+                    fontWeight: FontWeight.w600,
+                    color: Colors.white,
+                    fontSize: 20),
+              ),
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton.icon(
+              onPressed: () => Navigator.pushNamed(context, '/adminPortal'),
+              icon: const Icon(Icons.admin_panel_settings,
+                  size: 26, color: Colors.red),
+              label: Text(
+                'Admin Portal',
                 style: GoogleFonts.workSans(
                     fontWeight: FontWeight.w600,
                     color: Colors.white,
